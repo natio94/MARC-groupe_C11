@@ -17,9 +17,9 @@ tNode* createNode(int value){
     return node;
 }
 
-tTree* createTree(int value){
+tTree* createTree(){
     tTree* tree= (tTree*)malloc(sizeof(tTree));
-    tree->root = createNode(value);
+    tree->root = NULL;
     return tree;
 }
 
