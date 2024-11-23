@@ -153,3 +153,10 @@ void updateLocalisation(t_localisation *p_loc, t_move m)
     *p_loc = move(*p_loc, m);
     return;
 }
+
+char* genMove(){
+    for(int i=0;i<=9;i++){
+
+    }
+}
+

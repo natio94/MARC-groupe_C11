@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "map.h"
 #include "tree.h"
+#include "random.h"
 int main() {
     t_map map;
 
@@ -34,9 +35,14 @@ int main() {
         printf("\n");
     }
     displayMap(map);
-    */
+
     tNode* node;
-    node= createNode(0);
+    node= createNode(0);*/
+
+        int choices_array[] = {1, 2, 3};
+        int weights[] = {2, 1, 5}; // Example weights
+        int selected_choice = choices(choices_array, 3);
+        printf("Selected choice: %d\n", selected_choice);
 
     return 0;
 }

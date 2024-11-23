@@ -17,4 +17,6 @@ add_executable(untitled1 main.c
         tree.h
         tree.c
         node.h
-        node.c)
+        node.c
+        random.h
+        random.c)
