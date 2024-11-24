@@ -6,4 +6,6 @@
 #define UNTITLED1_RANDOM_H
 #include <stdlib.h>
 int choices(int choice[],int ,...);
+int* generateAllMovements(int n);
+int generateMovement(int pool[]);
 #endif //UNTITLED1_RANDOM_H
