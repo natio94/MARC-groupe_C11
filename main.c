@@ -2,7 +2,8 @@
 #include "map.h"
 #include "tree.h"
 #include "random.h"
-
+#include "loc.h"
+#include "moves.h"
 int main() {
     t_map map;
 
@@ -15,8 +16,7 @@ int main() {
     map = createMapFromFile("../maps/example1.map");
 #endif
 
-    /*
-    t_map map = createMapFromFile("..\\maps\\example1.map");
+
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
     {
@@ -37,8 +37,7 @@ int main() {
     }
     displayMap(map);
 
-    tNode* node;
-    node= createNode(0);*/
+
 
 
     return 0;

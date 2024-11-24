@@ -4,7 +4,7 @@
 
 #ifndef UNTITLED1_LOC_H
 #define UNTITLED1_LOC_H
-
+#include "map.h"
 /**
  * @brief Enum for the orientation of the robot (NORTH, EAST, SOUTH, WEST)
  */
@@ -79,5 +79,13 @@ t_position UP(t_position);
  * @return the DOWN position
  */
 t_position DOWN(t_position);
+
+/**
+ * @brief Function to check if a tile is a crevasse
+ * @param loc : the position to check
+ * @param map : the map
+ * @return
+ */
+int isCrevasse(t_position, t_map);
 
 #endif //UNTITLED1_LOC_H

@@ -4,6 +4,7 @@
 
 #include "loc.h"
 
+
 t_localisation loc_init(int x, int y, t_orientation ori)
 {
     t_localisation loc;
@@ -16,6 +17,14 @@ t_localisation loc_init(int x, int y, t_orientation ori)
 int isValidLocalisation(t_position loc, int x_max, int y_max)
 {
     return (loc.x >= 0 && loc.x < x_max && loc.y >= 0 && loc.y < y_max);
+}
+
+int isOutOfBound(t_position loc, int x_max, int y_max)
+{
+    return (loc.x < 0 || loc.x >= x_max || loc.y < 0 || loc.y >= y_max);
+}
+int isCrevasse(t_position loc, t_map map){
+    return map.soils[loc.y][loc.x] == CREVASSE;
 }
 
 t_position LEFT(t_position pos)

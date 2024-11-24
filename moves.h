@@ -6,6 +6,7 @@
 #define UNTITLED1_MOVES_H
 
 #include "loc.h"
+#include <stdio.h>
 
 /**
  * @brief Array of strings for the possible moves of the robot
@@ -49,5 +50,14 @@ t_localisation move(t_localisation, t_move);
  * @return none
  */
 void updateLocalisation(t_localisation *, t_move);
+
+/**
+ * @brief function to check if the robot is moving on a crevasse
+ * @param loc : the localisation of the robot
+ * @param map : the map
+ * @param move : the move to do
+ * @return 1 if the robot is moving on a crevasse, 0 otherwise
+ */
+int isMovingOnCrevasse(t_localisation loc, t_map map, t_move move);
 
 #endif //UNTITLED1_MOVES_H

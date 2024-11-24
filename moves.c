@@ -183,3 +183,19 @@ t_move *getRandomMoves(int N)
     }
     return moves;
 }
+int isMovingOnCrevasse(t_localisation loc, t_map map, t_move nextMove){
+    t_localisation new_loc = move(loc, nextMove);
+    if (!isValidLocalisation(new_loc.pos, map.x_max, map.y_max))
+    {
+        printf("Invalid position\n");
+        return 1;
+    }
+    int crevasse=isCrevasse(new_loc.pos, map);
+    if (nextMove== F_20){
+        crevasse=crevasse || isCrevasse(move(loc, F_10).pos, map);
+    }
+    else if (nextMove== F_30){
+        crevasse=crevasse || isCrevasse(move(loc, F_10).pos, map) || isCrevasse(move(loc, F_20).pos, map);
+    }
+    return crevasse;
+}
