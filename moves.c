@@ -199,3 +199,8 @@ int isMovingOnCrevasse(t_localisation loc, t_map map, t_move nextMove){
     }
     return crevasse;
 }
+
+int testArriveeSurBaseStation(t_position robot_pos, t_map map)
+{
+    return (map.soils[robot_pos.x][robot_pos.y] == BASE_STATION);
+}
