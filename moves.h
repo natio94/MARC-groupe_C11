@@ -7,6 +7,8 @@
 
 #include "loc.h"
 #include <stdio.h>
+#include <stdlib.h>
+
 
 /**
  * @brief Array of strings for the possible moves of the robot
