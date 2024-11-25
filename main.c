@@ -1,21 +1,25 @@
 #include <stdio.h>
-#include "map.h"
+#include <stdlib.h>
+#include "tree.h"  // Inclure le fichier d'en-tête pour la définition des structures
+
+#include <stdio.h>
+#include <stdlib.h>
 #include "tree.h"
 #include "random.h"
 #include "loc.h"
 #include "moves.h"
+
 int main() {
-    t_map map;
 
-    // The following preprocessor directive checks if the code is being compiled on a Windows system.
-    // If either _WIN32 or _WIN64 is defined, it means we are on a Windows platform.
-    // On Windows, file paths use backslashes (\), hence we use the appropriate file path for Windows.
-#if defined(_WIN32) || defined(_WIN64)
-    map = createMapFromFile("..\\maps\\example1.map");
-#else
-    map = createMapFromFile("../maps/example1.map");
-#endif
+    tNode* root = createNode(0, 5, 0);
 
+    for (int i = 0; i < 5; i++) {
+        addNode(root, i + 1, 4);
+    }
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 4; j++) {
+            addNode(root->nodes[i], (i * 4 + j) + 1, 3);
 
     printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
     for (int i = 0; i < map.y_max; i++)
@@ -24,17 +28,17 @@ int main() {
         {
             printf("%d ", map.soils[i][j]);
         }
-        printf("\n");
     }
-    // printf the costs, aligned left 5 digits
-    for (int i = 0; i < map.y_max; i++)
-    {
-        for (int j = 0; j < map.x_max; j++)
-        {
-            printf("%-5d ", map.costs[i][j]);
+
+    for (int i = 0; i < 5; i++) {
+        for (int j = 0; j < 4; j++) {
+            for (int k = 0; k < 3; k++) {
+                addNode(root->nodes[i]->nodes[j], (i * 4 * 3 + j * 3 + k) + 1, 2);
+            }
         }
-        printf("\n");
     }
+
+    printTree(root, 0);
     displayMap(map);
 
 

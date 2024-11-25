@@ -3,22 +3,22 @@
 //
 
 #include "node.h"
-tNode* createNode(int value,int nbNode,int depth){
-    tNode* node;
-    node = (tNode*)malloc(sizeof(tNode));
+
+tNode* createNode(int value, int nbNode, int depth) {
+    tNode* node = (tNode*)malloc(sizeof(tNode));
     node->value = value;
-    node->nbNodes = nbNode;
-    for (int i = 0; i < nbNode; i++)
-    {
+    node->nbNodes = 0;
+    for (int i = 0; i < nbNode; i++) {
         node->nodes[i] = NULL;
     }
     return node;
 }
-void addNode(tNode* tree, int value,int nbNode){
-    if (tree->nbNodes < NB_NODES_MAX) {
-        tNode* newTree = createNode(value,nbNode,tree->depth+1);
-        tree->nodes[tree->nbNodes] = newTree;
-        tree->nbNodes++;
+
+void addNode(tNode* node, int value, int nbNode) {
+    if (node->nbNodes < NB_NODES_MAX) {
+        tNode* newNode = createNode(value, nbNode, node->nbNodes + 1);
+        node->nodes[node->nbNodes] = newNode;
+        node->nbNodes++;
     }
 }
 

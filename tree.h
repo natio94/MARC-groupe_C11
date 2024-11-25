@@ -8,33 +8,12 @@
 #include <malloc.h>
 #include "node.h"
 
-
-
-
-/**
- * @brief La structure d'un arbre
- */
-typedef struct sTree{
-    tNode* root;
-}tTree;
-
-
-
-/**
- * @brief Fonction pour creer un arbre
- * @return l'arbre cree
- */
 tTree* createTree();
 
-
-
-
-
-/**
- * @brief Fonction pour supprimer un arbre
- * @param tree : l'arbre a supprimer
- * @return none
- */
 void removeTree(tTree*);
+
+void printTree(tNode* node, int level);
+
+void addRootNode(tTree*, int, int);
 
 #endif //UNTITLED1_TREE_H

@@ -9,15 +9,34 @@
 #include <malloc.h>
 
 #define NB_NODES_MAX 9
-/**
- * @brief La structure d'un noeud
- */
+
 typedef struct sNode{
     struct sNode* nodes[NB_NODES_MAX];
     int depth;
     int value;
     int nbNodes;
 }tNode;
+
+
+typedef struct {
+ int x, y;
+} t_position;
+
+typedef enum {
+ UP_ORIENTATION, DOWN_ORIENTATION, LEFT_ORIENTATION, RIGHT_ORIENTATION
+} t_orientation;
+
+typedef struct {
+ t_position pos;
+ t_orientation ori;
+} t_localisation;
+
+
+typedef struct {
+ tNode* root;
+} tTree;
+
+
 
 /**
  * @brief Fonction pour creer un noeud
