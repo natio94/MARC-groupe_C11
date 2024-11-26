@@ -62,3 +62,4 @@ int* generateAllMovements(int n) {
 
     return moves;
 }
+
