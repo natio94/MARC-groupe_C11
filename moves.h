@@ -30,6 +30,12 @@ typedef enum e_move
     U_TURN
 } t_move;
 
+typedef struct e_max
+{
+ int value;
+ t_move* chemin;
+} t_max;
+
 /**
  * @brief function to get a t_move as a string
  * @param move : the move to convert
@@ -63,7 +69,7 @@ void phaseUpdateLocalisation(t_localisation *p_loc, t_move *m);
  * @return 1 if the robot is moving on a crevasse, 0 otherwise
  */
 int isMovingOnCrevasse(t_localisation loc, t_map map, t_move move);
-
-void totalchoice(tNode*, t_move*, int);
-
+int totalmoves(t_move*, int, t_localisation, t_map, t_localisation, t_map);
+int rentamove(t_localisation, t_map);
+void totalchoice(tNode* node, t_move* tab, t_move* chemin, int size, int firstsize, t_localisation local, t_map map, t_max* max);
 #endif //UNTITLED1_MOVES_H

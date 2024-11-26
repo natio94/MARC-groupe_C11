@@ -267,12 +267,32 @@ int totalmoves(t_move* tab, int size, t_localisation local, t_map map) {
      rentamove(fake_local, map);
  }
 
-void totalchoice(tNode* node, t_move* tab, int size) {
+t_move* newtab(t_move* tab, int size, int nope) {
+     t_move newtab[size];
+     for (int i = 0; i < size-1; i++) {
+         if (i=!nope) {
+             newtab[i] = tab[i];
+         }
+     }
+     return newtab;
+ }
+
+
+
+
+void totalchoice(tNode* node, t_move* tab, t_move* chemin, int size, int firstsize, t_localisation local, t_map map, t_max* max) {
      if (size >= 5) {
          for (int i = 0; i < size-1; i++) {
-             addNode(node, 1, size-1);
-             totalchoice(node->nodes[i], tab, size-1);
+             node->move = tab[i];
+             addNode(node, totalmoves(tab, size, local, map), size-1);
+             chemin[size-firstsize] = tab[i];
+             totalchoice(node->nodes[i], newtab(tab, size, i), chemin, size-1, size, local, map, max);
          }
+     }
+     else {
+     if (max->value>=totalmoves(tab,size,local,map)) {
+         max->chemin = chemin;
+     }
      }
  }
 

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tree.h"
+#include "node.h"
 #include "random.h"
 #include "loc.h"
 #include "moves.h"

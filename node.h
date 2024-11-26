@@ -8,6 +8,7 @@
 #include "stdio.h"
 #include <malloc.h>
 #include "loc.h"
+#include "moves.h"
 
 #define NB_NODES_MAX 9
 
@@ -16,6 +17,7 @@ typedef struct sNode{
     int depth;
     int value;
     int nbNodes;
+    t_move move;
 }tNode;
 
 
