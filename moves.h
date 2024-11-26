@@ -51,7 +51,9 @@ t_localisation move(t_localisation, t_move);
  * @param move : the move to do
  * @return none
  */
-void updateLocalisation(t_localisation *, t_move *);
+void updateLocalisation(t_localisation *, t_move);
+
+void phaseUpdateLocalisation(t_localisation *p_loc, t_move *m);
 
 /**
  * @brief function to check if the robot is moving on a crevasse

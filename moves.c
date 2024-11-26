@@ -198,10 +198,16 @@
      return new_loc;
  }
 
- void updateLocalisation(t_localisation *p_loc, t_move *m)
+ void updateLocalisation(t_localisation *p_loc, t_move m)
+ {
+     *p_loc = move(*p_loc, m);
+     return;
+ }
+
+ void phaseUpdateLocalisation(t_localisation *p_loc, t_move *m)
  {
      for (int i=0; i<5; i++) {
-         *p_loc = move(*p_loc, m[i]);
+         updateLocalisation(p_loc, m[i]);
      }
      return;
  }
