@@ -24,6 +24,47 @@
   */
  t_localisation translate(t_localisation , t_move);
 
+ t_move intToMove(int move){
+        switch (move)
+        {
+            case 0:
+                return F_10;
+            case 1:
+                return F_20;
+            case 2:
+                return F_30;
+            case 3:
+                return B_10;
+            case 4:
+                return T_LEFT;
+            case 5:
+                return T_RIGHT;
+            case 6:
+                return U_TURN;
+
+        }
+    }
+
+    int moveToInt(t_move move){
+        switch (move)
+        {
+            case F_10:
+                return 0;
+            case F_20:
+                return 1;
+            case F_30:
+                return 2;
+            case B_10:
+                return 3;
+            case T_LEFT:
+                return 4;
+            case T_RIGHT:
+                return 5;
+            case U_TURN:
+                return 6;
+        }
+ }
+
  /* definition of local functions */
 
  t_orientation rotate(t_orientation ori, t_move move)
