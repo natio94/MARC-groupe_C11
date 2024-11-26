@@ -7,12 +7,32 @@
 #include "moves.h"
 #include "map.h"
 
+t_move *bestMove();
+
 int main() {
 
     tNode* root = createNode(0, 5, 0);
-    t_move tab[F_10];
+    //t_move tab[F_10];
 
-    totalchoice(root, tab, 9);
+    t_move tab[] = {F_10, F_20, F_30, B_10, T_LEFT, T_RIGHT, U_TURN};
+    t_move chemin[7];
+    t_max max = {0, NULL};
+
+    t_localisation local = {0, 0, SOUTH};
+    t_map map = createMapFromFile("..\\maps\\example1.map");
+
+    displayMap(map);
+    displayCosts(map);
+    t_move* move = bestMove(local, map);
+    for (int i = 0; i <5; i++) {
+        printf("%s\n", getMoveAsString(move[i]));
+    }
+
+
+    play(0, 0, SOUTH, "..\\maps\\example1.map");
+    //printf("Maximum value: %d\n", max.value);
+    //totalchoice(root, tab, 9);
+
         // for (int i = 0; i < 9; i++) {
         //     addNode(root, 1, 8);
         //     for (int j = 0; j < 8; j++) {
@@ -33,7 +53,7 @@ int main() {
         // }
 
 
-    printTree(root, 9);
+    //printTree(root, 9);
 
             // t_map map = createTrainingMap();
             //  printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
@@ -59,3 +79,4 @@ int main() {
     return 0;
 
 }
+

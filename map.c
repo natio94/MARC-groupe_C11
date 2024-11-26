@@ -301,3 +301,16 @@
      }
      return;
  }
+
+ void displayCosts(t_map map)
+ {
+     for (int i = 0; i < map.y_max; i++)
+     {
+         for (int j = 0; j < map.x_max; j++)
+         {
+             printf("%d ", map.costs[i][j]);
+         }
+         printf("\n");
+     }
+     return;
+ }

@@ -18,7 +18,6 @@ int choices(int choice[], int nb, ...) {
     //srand(0);
     srand(time(NULL));
     if (!weighted) {
-        printf("weighted\n");
         int sum = 0;
         for (int i = 0; i < nb; i++) {
             sum += weights[i];
@@ -27,8 +26,6 @@ int choices(int choice[], int nb, ...) {
         int pos = 0;
         for (int i = 0; i <nb; i++) {
             for (int j=0; j < weights[i]; j++) {
-                //printf("pos %d ", pos);
-                //printf("i %d ", i);
                 proba[pos] = choice[i];
                 pos++;
             }

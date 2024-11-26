@@ -5,20 +5,16 @@
 #ifndef UNTITLED1_MOVES_H
 #define UNTITLED1_MOVES_H
 
-#include "loc.h"
+
 #include <stdio.h>
 #include <stdlib.h>
-
-
-/**
- * @brief Array of strings for the possible moves of the robot
- */
-static char _moves[8][8] = {"F 10m", "F 20m", "F 30m", "B 10m", "T left", "T right", "U-turn"};
+#include "loc.h"
+#include "node.h"
+#include "random.h"
 
 /**
  * @brief Enum for the possible moves of the robot
  */
-
 typedef enum e_move
 {
     F_10, // Forward 10 m
@@ -30,7 +26,16 @@ typedef enum e_move
     U_TURN
 } t_move;
 
-typedef struct e_max
+
+
+/**
+ * @brief Array of strings for the possible moves of the robot
+ */
+static char _moves[8][8] = {"F 10m", "F 20m", "F 30m", "B 10m", "T left", "T right", "U-turn"};
+
+
+
+typedef struct s_max
 {
  int value;
  t_move* chemin;
@@ -59,6 +64,7 @@ t_localisation move(t_localisation, t_move);
  */
 void updateLocalisation(t_localisation *, t_move);
 
+
 void phaseUpdateLocalisation(t_localisation *p_loc, t_move *m);
 
 /**
@@ -69,7 +75,34 @@ void phaseUpdateLocalisation(t_localisation *p_loc, t_move *m);
  * @return 1 if the robot is moving on a crevasse, 0 otherwise
  */
 int isMovingOnCrevasse(t_localisation loc, t_map map, t_move move);
-int totalmoves(t_move*, int, t_localisation, t_map, t_localisation, t_map);
+
+
+
+/**
+ * @brief function to calculate the cose of a localisation
+ * @param loc : the localisation used
+ * @param map : the map
+ * @return
+ */
 int rentamove(t_localisation, t_map);
-void totalchoice(tNode* node, t_move* tab, t_move* chemin, int size, int firstsize, t_localisation local, t_map map, t_max* max);
+
+
+
+/**
+ * @brief function to get the best moves for the robot
+ * @param loc : the localisation of the robot
+ * @param map : the map
+ * @return
+ */
+t_move *bestMove(t_localisation, t_map);
+
+/**
+ * @brief function to launch the game
+ * @param x : the x position of the robot
+ * @param y : the y position of the robot
+ * @param ori : the orientation of the robot
+ * @param map : the map
+ * @return none
+ */
+void play(int, int, t_orientation, char*);
 #endif //UNTITLED1_MOVES_H

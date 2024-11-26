@@ -2,8 +2,10 @@
  // Created by flasque on 19/10/2024.
  //
 
-#include "node.h"
+
  #include "moves.h"
+#include "tree.h"
+
 
  /* prototypes of local functions */
  /* local functions are used only in this file, as helper functions */
@@ -251,6 +253,9 @@
 
  int testArriveeSurBaseStation(t_position robot_pos, t_map map)
  {
+     if (map.soils[robot_pos.x][robot_pos.y] == BASE_STATION){
+         printf("penis");
+     }
      return (map.soils[robot_pos.x][robot_pos.y] == BASE_STATION);
  }
 
@@ -264,13 +269,13 @@ int totalmoves(t_move* tab, int size, t_localisation local, t_map map) {
      for (int i = 0; i < size; i++) {
          fake_local = translate(fake_local, tab[i]);
      }
-     rentamove(fake_local, map);
+     return rentamove(fake_local, map);
  }
 
 t_move* newtab(t_move* tab, int size, int nope) {
-     t_move newtab[size];
+     t_move* newtab=malloc((size-1)*sizeof(t_move));
      for (int i = 0; i < size-1; i++) {
-         if (i=!nope) {
+         if (i!=nope) {
              newtab[i] = tab[i];
          }
      }
@@ -278,14 +283,12 @@ t_move* newtab(t_move* tab, int size, int nope) {
  }
 
 
-
-
 void totalchoice(tNode* node, t_move* tab, t_move* chemin, int size, int firstsize, t_localisation local, t_map map, t_max* max) {
-     if (size >= 5) {
-         for (int i = 0; i < size-1; i++) {
-             node->move = tab[i];
-             addNode(node, totalmoves(tab, size, local, map), size-1);
-             chemin[size-firstsize] = tab[i];
+             if (size >= 5) {
+             for (int i = 0; i < size-1; i++) {
+                 node->move = tab[i];
+                 addNode(node, totalmoves(tab, size, local, map), size-1);
+                 chemin[size-firstsize] = tab[i];
              totalchoice(node->nodes[i], newtab(tab, size, i), chemin, size-1, size, local, map, max);
          }
      }
@@ -296,21 +299,38 @@ void totalchoice(tNode* node, t_move* tab, t_move* chemin, int size, int firstsi
      }
  }
 
-// for (int i = 0; i < 9; i++) {
-//     addNode(root, 1, 8);
-//     for (int j = 0; j < 8; j++) {
-//         addNode(root->nodes[i], (i * 8 + j) + 1, 7);
-//         for (int k = 0; k < 7 ; k++){
-//             addNode(root->nodes[i]->nodes[j], (i * 7 + j) + 1, 6);
-//             for (int l = 0; l < 6 ; l++){
-//                 addNode(root->nodes[i]->nodes[j]->nodes[k], (i * 6 + j) + 1, 5);
-//                 for (int m = 0; m < 5 ; m++){
-//                     addNode(root->nodes[i]->nodes[j]->nodes[k]->nodes[l], (i * 5 + j) + 1, 4);
-//                     for (int n = 0; n < 4 ; n++){
-//                         addNode(root->nodes[i]->nodes[j]->nodes[k]->nodes[l]->nodes[m], (i * 4 + j) + 1, 1);
-//                     }
-//                 }
-//             }
-//         }
-//     }
-// }
+ t_move *bestMove(t_localisation local, t_map map){
+     tTree* tree = createTree();
+     t_position robot_pos = local.pos;
+     tree->root=createNode(map.costs[robot_pos.x][robot_pos.y],9,0);
+     int *movesPoolInt=generateAllMovements(9);
+     t_move *movesPool=malloc(9*sizeof(t_move));
+        for (int i = 0; i < 9; i++) {
+            movesPool[i]=intToMove(movesPoolInt[i]);
+        }
+     t_move *chemin=malloc(5*sizeof(t_move));
+     t_max* max= malloc(sizeof(t_max));
+     max->value=1000*map.x_max*map.y_max;
+     max->chemin=malloc(5*sizeof(t_move));
+     totalchoice(tree->root,movesPool,chemin ,9,9,local,map,max);
+     return max->chemin;
+ }
+
+
+ void play(int x, int y, t_orientation ori, char *filename) {
+     t_localisation robotLocation = loc_init(x, y, ori);
+     t_map map = createMapFromFile(filename);
+     t_position robotPos = robotLocation.pos;
+     while (isValidLocalisation(robotPos, map.x_max, map.y_max) && !testArriveeSurBaseStation(robotPos, map) && !isCrevasse(robotPos, map)) {
+        t_move* best= bestMove(robotLocation, map);
+         for (int i = 0; i < 5; ++i) {
+                updateLocalisation(&robotLocation, best[i]);
+                robotPos = robotLocation.pos;
+                if (!isValidLocalisation(robotPos, map.x_max, map.y_max) || testArriveeSurBaseStation(robotPos, map) || isCrevasse(robotPos, map)) {
+                    break;
+                }
+
+         }
+
+     }
+ }

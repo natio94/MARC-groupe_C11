@@ -4,20 +4,19 @@
 
 #ifndef UNTITLED1_NODE_H
 #define UNTITLED1_NODE_H
-#include "stdio.h"
-#include "stdio.h"
+#include <stdio.h>
+#include <stdlib.h>
 #include <malloc.h>
 #include "loc.h"
-#include "moves.h"
+
 
 #define NB_NODES_MAX 9
-
 typedef struct sNode{
     struct sNode* nodes[NB_NODES_MAX];
     int depth;
     int value;
     int nbNodes;
-    t_move move;
+    int move;
 }tNode;
 
 

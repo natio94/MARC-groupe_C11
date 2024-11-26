@@ -55,4 +55,11 @@ t_map createMapFromFile(char *);
  */
 void displayMap(t_map);
 
+/**
+ * @brief Function to show the costs of the soils
+ * @param map : the map
+ * @return none
+ */
+void displayCosts(t_map);
+
 #endif //UNTITLED1_MAP_H
