@@ -10,6 +10,7 @@
 const char *MOVEMENT[] = {"+10", "+20", "+30", "-10", "left", "right", "U-turn"};
 
 int choices(int choice[], int nb, ...) {
+    //va_list is used to get the optional arguments after nb
     va_list ap;
     va_start(ap, nb);
     int weighted = va_arg(ap, int);
@@ -45,7 +46,9 @@ int choices(int choice[], int nb, ...) {
 int generateMovement(int pool[]) {
     int length=7;
     int moves[]= {0,1,2,3,4,5,6};
+    //choice is used to choose a movement from moves with the pool ponderation
     int moveChoosed = choices(moves, length, 0, pool);
+    //you decrement the pool of the movement choosed
     pool[moveChoosed]--;
     return moveChoosed;
 }
