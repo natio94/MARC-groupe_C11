@@ -2,7 +2,7 @@
  // Created by flasque on 19/10/2024.
  //
 
-
+#include "node.h"
  #include "moves.h"
 
  /* prototypes of local functions */
@@ -247,3 +247,44 @@
  {
      return (map.soils[robot_pos.x][robot_pos.y] == BASE_STATION);
  }
+
+int rentamove(t_localisation local, t_map map) {
+        return map.costs[local.pos.x][local.pos.y];
+     }
+
+
+int totalmoves(t_move* tab, int size, t_localisation local, t_map map) {
+     t_localisation fake_local = local;
+     for (int i = 0; i < size; i++) {
+         fake_local = translate(fake_local, tab[i]);
+     }
+     rentamove(fake_local, map);
+ }
+
+void totalchoice(tNode* node, t_move* tab, int size) {
+     if (size >= 5) {
+         for (int i = 0; i < size-1; i++) {
+             addNode(node, 1, size-1);
+             totalchoice(node->nodes[i], tab, size-1);
+         }
+     }
+ }
+
+// for (int i = 0; i < 9; i++) {
+//     addNode(root, 1, 8);
+//     for (int j = 0; j < 8; j++) {
+//         addNode(root->nodes[i], (i * 8 + j) + 1, 7);
+//         for (int k = 0; k < 7 ; k++){
+//             addNode(root->nodes[i]->nodes[j], (i * 7 + j) + 1, 6);
+//             for (int l = 0; l < 6 ; l++){
+//                 addNode(root->nodes[i]->nodes[j]->nodes[k], (i * 6 + j) + 1, 5);
+//                 for (int m = 0; m < 5 ; m++){
+//                     addNode(root->nodes[i]->nodes[j]->nodes[k]->nodes[l], (i * 5 + j) + 1, 4);
+//                     for (int n = 0; n < 4 ; n++){
+//                         addNode(root->nodes[i]->nodes[j]->nodes[k]->nodes[l]->nodes[m], (i * 4 + j) + 1, 1);
+//                     }
+//                 }
+//             }
+//         }
+//     }
+// }

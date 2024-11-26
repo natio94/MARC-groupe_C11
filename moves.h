@@ -62,4 +62,6 @@ void updateLocalisation(t_localisation *, t_move *);
  */
 int isMovingOnCrevasse(t_localisation loc, t_map map, t_move move);
 
+void totalchoice(tNode*, t_move*, int);
+
 #endif //UNTITLED1_MOVES_H
