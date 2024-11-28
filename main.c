@@ -9,69 +9,60 @@
 
 t_move *bestMove();
 
+void test(tNode* node, int level) {
+    if (node == NULL) return;
+
+    for (int i = 0; i < level; i++) {
+        printf("  ");
+    }
+    for (int i = 0; i < level; i++) {
+        printf("  ");
+    }
+
+    printf("|-- value: %d, move: %s\n", node->value, getMoveAsString(node->move));
+
+    for (int i = 0; i < node->nbNodes; i++) {
+        test(node->nodes[i], level + 1);
+    }
+}
+
 int main() {
 
-    tNode* root = createNode(0, 5, 0);
+//    tNode* root = createNode(0, 9, 0,-1);
     //t_move tab[F_10];
 
-    t_move tab[] = {F_10, F_20, F_30, B_10, T_LEFT, T_RIGHT, U_TURN};
-    t_move chemin[7];
-    t_max max = {0, NULL};
+
+
 
     t_localisation local = {0, 0, SOUTH};
     t_map map = createMapFromFile("..\\maps\\example1.map");
 
     displayMap(map);
+    printf("\n");
     displayCosts(map);
-    t_move* move = bestMove(local, map);
-    for (int i = 0; i <5; i++) {
-        printf("%s\n", getMoveAsString(move[i]));
-    }
+    //t_move* move = bestMove(local, map);
+//    t_move moves[]={F_20, F_20, T_LEFT, T_RIGHT, F_20};
+//    printf("%d", totalmoves( moves, 5, local, map));
+//    printf("x %d y %d\n", finalLocal(moves, 5, local).pos.x, finalLocal(moves, 5, local).pos.y);
+//    printf("%d",map.costs[finalLocal(moves, 5, local).pos.y][finalLocal(moves, 5, local).pos.x]);
+    //t_move tab[] = {F_10, F_20, F_30, B_10, T_LEFT, T_RIGHT, U_TURN};
+//    avancer de 10, tourner gauche, avancer de 20, tourner droite, demis tour,
+//    t_move moves[] = {F_20, F_20, B_10, T_LEFT, T_RIGHT, F_10, F_30, U_TURN, B_10};
+//    createMoveNode(root, map, moves, 9, local);
+    //printTree(root, 0);
+//    printf("\na%d\n",findMinLeafValue(root));
+//    t_stack stack =createStack(5);
+//    minNodes(root, &stack);
+//    for (int i = 0; i < stack.nbElts; i++) {
+//        printf("%s\n", getMoveAsString(stack.values[i]));
+//    }
 
 
     play(0, 0, SOUTH, "..\\maps\\example1.map");
-    //printf("Maximum value: %d\n", max.value);
-    //totalchoice(root, tab, 9);
-
-        // for (int i = 0; i < 9; i++) {
-        //     addNode(root, 1, 8);
-        //     for (int j = 0; j < 8; j++) {
-        //         addNode(root->nodes[i], (i * 8 + j) + 1, 7);
-        //         for (int k = 0; k < 7 ; k++){
-        //             addNode(root->nodes[i]->nodes[j], (i * 7 + j) + 1, 6);
-        //             for (int l = 0; l < 6 ; l++){
-        //                 addNode(root->nodes[i]->nodes[j]->nodes[k], (i * 6 + j) + 1, 5);
-        //                 for (int m = 0; m < 5 ; m++){
-        //                     addNode(root->nodes[i]->nodes[j]->nodes[k]->nodes[l], (i * 5 + j) + 1, 4);
-        //                     for (int n = 0; n < 4 ; n++){
-        //                         addNode(root->nodes[i]->nodes[j]->nodes[k]->nodes[l]->nodes[m], (i * 4 + j) + 1, 1);
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //     }
-        // }
 
 
-    //printTree(root, 9);
 
-            // t_map map = createTrainingMap();
-            //  printf("Map created with dimensions %d x %d\n", map.y_max, map.x_max);
-            //  for (int i = 0; i < map.y_max; i++)
-            //  {
-            //      for (int j = 0; j < map.x_max; j++)
-            //      {
-            //          printf("%d ", map.soils[i][j]);
-            //      }
-            //  }
 
-//             for (int i = 0; i < 5; i++) {
-//                 for (int j = 0; j < 4; j++) {
-//                     for (int k = 0; k < 3; k++) {
-//                         addNode(root->nodes[i]->nodes[j], (i * 4 * 3 + j * 3 + k) + 1, 2);
-//                     }
-//                 }
-//             }
 
 
 

@@ -11,6 +11,8 @@
 #include "loc.h"
 #include "node.h"
 #include "random.h"
+#include "tree.h"
+#include "stack.h"
 
 /**
  * @brief Enum for the possible moves of the robot
@@ -105,4 +107,17 @@ t_move *bestMove(t_localisation, t_map);
  * @return none
  */
 void play(int, int, t_orientation, char*);
+
+int totalmoves(t_move*, int, t_localisation, t_map);
+
+void createMoveNode(tNode*, t_map,t_move*, int, t_localisation);
+
+t_localisation finalLocal(t_move* tab, int size, t_localisation local);
+
+t_move * bestPath(tTree tree);
+tNode * minNodes(tNode* node, t_stack* stack);
+
+tTree createMoveTree(t_map map, t_localisation local);
+
+void displayMove(t_move* move, int size);
 #endif //UNTITLED1_MOVES_H

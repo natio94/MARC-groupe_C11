@@ -4,7 +4,6 @@
 
 
  #include "moves.h"
-#include "tree.h"
 
 
  /* prototypes of local functions */
@@ -254,83 +253,174 @@
  int testArriveeSurBaseStation(t_position robot_pos, t_map map)
  {
      if (map.soils[robot_pos.x][robot_pos.y] == BASE_STATION){
-         printf("penis");
+         printf("fini");
      }
      return (map.soils[robot_pos.x][robot_pos.y] == BASE_STATION);
  }
 
 int rentamove(t_localisation local, t_map map) {
-        return map.costs[local.pos.x][local.pos.y];
+    //displayCosts(map);
+    //printf("\n");
+        if (!isValidLocalisation(local.pos, map.x_max, map.y_max))
+        {
+            return 1000*map.x_max*map.y_max;
+        }
+        return map.costs[local.pos.y][local.pos.x];
      }
-
+void displayMove(t_move* move, int size){
+    for (int i = 0; i <size; i++) {
+        printf("%s\n", getMoveAsString(move[i]));
+    }  }
 
 int totalmoves(t_move* tab, int size, t_localisation local, t_map map) {
-     t_localisation fake_local = local;
+     return rentamove(finalLocal(tab,size,local), map);
+ }
+
+ t_localisation finalLocal(t_move* tab, int size, t_localisation local){
+        t_localisation fake_local = local;
      for (int i = 0; i < size; i++) {
          fake_local = translate(fake_local, tab[i]);
      }
-     return rentamove(fake_local, map);
+        return fake_local;
  }
 
-t_move* newtab(t_move* tab, int size, int nope) {
-     t_move* newtab=malloc((size-1)*sizeof(t_move));
-     for (int i = 0; i < size-1; i++) {
-         if (i!=nope) {
-             newtab[i] = tab[i];
+
+ t_move* newtab(t_move* array, int size, int index) {
+     if (index < 0 || index >= size) {
+         return array; // Index out of bounds, return the original array
+     }
+
+     t_move* newArray = (t_move*)malloc((size - 1) * sizeof(t_move));
+     if (newArray == NULL) {
+         return array; // Memory allocation failed, return the original array
+     }
+
+     for (int i = 0, j = 0; i < size; i++) {
+         if (i != index) {
+             newArray[j++] = array[i];
          }
      }
-     return newtab;
+
+     //free(array); // Free the old array
+     return newArray;
  }
 
 
-void totalchoice(tNode* node, t_move* tab, t_move* chemin, int size, int firstsize, t_localisation local, t_map map, t_max* max) {
-             if (size >= 5) {
-             for (int i = 0; i < size-1; i++) {
-                 node->move = tab[i];
-                 addNode(node, totalmoves(tab, size, local, map), size-1);
-                 chemin[size-firstsize] = tab[i];
-             totalchoice(node->nodes[i], newtab(tab, size, i), chemin, size-1, size, local, map, max);
+ void createMoveNode(tNode* node,t_map map,t_move* tab, int size, t_localisation local){
+
+     int total = totalmoves(tab, size, local, map);
+     if (size >= 5) {
+         if (total<1000) {
+             for (int i = 0; i < size-1; i++) {t_move* newTab = newtab(tab, size, i);
+                 t_move move=tab[i];
+                 addNode(node, node->value + rentamove(translate(local,move), map), size - 1, moveToInt(move));
+                 createMoveNode(node->nodes[i], map, newTab, size - 1, translate(local,move));
+                 free(newTab);
+             }
          }
      }
-     else {
-     if (max->value>=totalmoves(tab,size,local,map)) {
-         max->chemin = chemin;
-     }
-     }
  }
 
- t_move *bestMove(t_localisation local, t_map map){
-     tTree* tree = createTree();
-     t_position robot_pos = local.pos;
-     tree->root=createNode(map.costs[robot_pos.x][robot_pos.y],9,0);
-     int *movesPoolInt=generateAllMovements(9);
-     t_move *movesPool=malloc(9*sizeof(t_move));
-        for (int i = 0; i < 9; i++) {
-            movesPool[i]=intToMove(movesPoolInt[i]);
+
+
+
+ tNode* minNodes(tNode* node, t_stack *stack) {
+    if (node == NULL || node->nbNodes == 0) {
+        return node;
+    }
+    tNode* minNode = node->nodes[0];
+    for (int i = 0; i < node->nbNodes; i++) {
+        if (node->nodes[i]->value < minNode->value) {
+            minNode = node->nodes[i];
         }
-     t_move *chemin=malloc(5*sizeof(t_move));
-     t_max* max= malloc(sizeof(t_max));
-     max->value=1000*map.x_max*map.y_max;
-     max->chemin=malloc(5*sizeof(t_move));
-     totalchoice(tree->root,movesPool,chemin ,9,9,local,map,max);
-     return max->chemin;
+    }
+     printf("%d\n",minNode->value);
+    push(stack, minNode->move);
+    return minNodes(minNode, stack);
+}
+
+tTree createMoveTree(t_map map, t_localisation local){
+    tTree tree;
+    tree.root = createNode(0, 9, 0,-1);
+    t_move* moves = generateAllMovements(9);
+    createMoveNode(tree.root, map, moves, 9, local);
+    return tree;
  }
 
+    t_move * bestPath(tTree tree){
+        t_stack stack =createStack(5);
+        minNodes(tree.root, &stack);
+        t_move* best = (t_move*)malloc(5*sizeof(t_move));
+        for (int i = 0; i < stack.nbElts; i++) {
+            best[i] = pop(&stack);
+        }
+        return best;
+    }
+
+
+
+
+
+
+
+
+
+// void play(int x, int y, t_orientation ori, char *filename) {
+//
+//
+// }
 
  void play(int x, int y, t_orientation ori, char *filename) {
-     t_localisation robotLocation = loc_init(x, y, ori);
+     // Initialisation de la localisation et de la carte
+     t_localisation local = loc_init(x, y, ori);
      t_map map = createMapFromFile(filename);
-     t_position robotPos = robotLocation.pos;
-     while (isValidLocalisation(robotPos, map.x_max, map.y_max) && !testArriveeSurBaseStation(robotPos, map) && !isCrevasse(robotPos, map)) {
-        t_move* best= bestMove(robotLocation, map);
-         for (int i = 0; i < 5; ++i) {
-                updateLocalisation(&robotLocation, best[i]);
-                robotPos = robotLocation.pos;
-                if (!isValidLocalisation(robotPos, map.x_max, map.y_max) || testArriveeSurBaseStation(robotPos, map) || isCrevasse(robotPos, map)) {
-                    break;
-                }
 
+     // Affichage initial de la carte et des coûts
+     printf("Initial Map:\n");
+     displayMap(map);
+     printf("\nCosts:\n");
+     displayCosts(map);
+
+     // Création de l'arbre des mouvements
+     tTree moveTree = createMoveTree(map, local);
+
+     // Récupération du chemin optimal
+     t_move *bestMoves = bestPath(moveTree);
+
+     // Affichage des mouvements choisis
+     printf("\nOptimal moves:\n");
+     //displayMove(bestMoves, 5);
+
+     // Mise à jour de la localisation du robot
+     printf("\nRobot movement:\n");
+     for (int i = 0; i < 5; i++) {
+         printf("Executing move: %s\n", getMoveAsString(bestMoves[i]));
+         updateLocalisation(&local, bestMoves[i]);
+         printf("New position: x=%d, y=%d, orientation=%d\n",
+                local.pos.x, local.pos.y, local.ori);
+
+         if (!isValidLocalisation(local.pos, map.x_max, map.y_max)) {
+             printf("Invalid position. Stopping.\n");
+             break;
          }
 
+         // Vérification des crevasses et des limites
+         if (isMovingOnCrevasse(local, map, bestMoves[i])) {
+             printf("Danger! Moving into a crevasse. Stopping.\n");
+             break;
+         }
+
+         // Vérification de la station de base
+         if (testArriveeSurBaseStation(local.pos, map)) {
+             printf("Success! Robot has reached the base station.\n");
+             break;
+         }
      }
+
+     // Libération de la mémoire
+     free(bestMoves);
+
+
+     printf("\nPlay session complete.\n");
  }
+

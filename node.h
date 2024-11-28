@@ -30,17 +30,22 @@ typedef struct {
 /**
  * @brief Fonction pour creer un noeud
  * @param value : la valeur du noeud
+ * @param nbNode : le nombre de noeuds fils
+ * @param depth : la profondeur du noeud
+ * @param move : le mouvement associe au noeud
  * @return le noeud cree
  */
-tNode* createNode(int,int,int);
+tNode* createNode(int,int,int,int);
 
 /**
  * @brief Fonction pour ajouter un noeud a un arbre
  * @param tree : l'arbre
  * @param value : la valeur du noeud a ajouter
+ * @param nbNode : le nombre de noeuds fils
+ * @param move : le mouvement associe au noeud
  * @return none
  */
-void addNode(tNode*, int,int);
+void addNode(tNode*, int,int,int );
 
 /**
  * @brief Fonction pour verifier si un noeud est une feuille
@@ -55,5 +60,7 @@ int isLeaf(tNode*);
  * @return none
  */
 void removeNode(tNode*);
+
+int findMinLeafValue(tNode* node);
 
 #endif //UNTITLED1_NODE_H

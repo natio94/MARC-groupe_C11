@@ -5,6 +5,7 @@
 #include <malloc.h>
 #include "tree.h"
 #include "node.h"
+#include "moves.h"
 
 #define NB_NODES_MAX 10
 
@@ -14,29 +15,25 @@ tTree* createTree() {
     return tree;
 }
 
-void addRootNode(tTree* tree, int value, int nbNode) {
-    if (tree->root == NULL) {
-        tree->root = createNode(value, nbNode, 0);
-    } else {
-        printf("La racine existe déjà.\n");
-    }
-}
 
 void removeTree(tTree* tree) {
     removeNode(tree->root);
     free(tree);
 }
 
+//
 void printTree(tNode* node, int level) {
     if (node == NULL) return;
     for (int i = 0; i < level; i++) {
         printf("  ");
     }
-    if (level > 0) {
-        printf("- ");
+    for (int i = 0; i < level; i++) {
+        printf("  ");
     }
-    printf("Valeur du noeud: %d\n", node->value);
+    printf("|-- value: %d, move: %s\n", node->value, getMoveAsString(node->move));
+
     for (int i = 0; i < node->nbNodes; i++) {
         printTree(node->nodes[i], level + 1);
     }
 }
+
